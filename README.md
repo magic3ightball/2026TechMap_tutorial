@@ -1,0 +1,22 @@
+# Plane Detection으로 만드는 벽 발굴 체험
+
+visionOS에서 수직 평면을 감지하고, 감지된 벽에 RealityKit 발굴 surface를 배치하는 DocC 튜토리얼입니다.
+
+## 튜토리얼 보기
+
+[GitHub Pages에서 튜토리얼 열기](https://magic3ightball.github.io/2026TechMap_tutorial/tutorials/planeexcavation/)
+
+## 구성
+
+- `outputs/PlaneDetectionTutorial.docc`: DocC 튜토리얼 원본과 누적 Swift 코드
+- `docs`: GitHub Pages 배포용 정적 DocC 사이트
+
+## 학습 내용
+
+1. visionOS Full Space와 world-sensing 사용 목적 구성
+2. `PlaneDetectionProvider`를 이용한 수직 평면 감지
+3. `PlaneAnchor`의 추가·변경·삭제 이벤트 처리
+4. RealityKit entity에 collision과 targeted drag gesture 연결
+5. 발굴 surface를 문질러 artifact placeholder 표시
+
+실제 환경의 평면 감지와 입력 동작은 Apple Vision Pro에서 테스트해야 합니다.

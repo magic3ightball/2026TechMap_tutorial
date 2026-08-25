@@ -1,0 +1,6 @@
+.DS_Store
+
+# Keep the DocC source, but exclude local previews and generated work files.
+outputs/*
+!outputs/PlaneDetectionTutorial.docc/
+!outputs/PlaneDetectionTutorial.docc/**

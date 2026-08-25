@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-labelledby="title">
+  <title id="title">수직 벽 평면 스캔</title>
+  <rect width="800" height="450" fill="#eef4f1"/>
+  <rect x="220" y="70" width="360" height="290" rx="8" fill="#b9d8ce" stroke="#17695f" stroke-width="10"/>
+  <path d="M280 140h240M280 205h240M280 270h240M340 100v230M400 100v230M460 100v230" stroke="#17695f" stroke-width="4" opacity=".72"/>
+  <path d="M620 142c34 25 34 141 0 166" fill="none" stroke="#d86843" stroke-width="11" stroke-linecap="round"/>
+  <text x="400" y="416" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" fill="#173d38">수직 벽 평면 스캔</text>
+</svg>

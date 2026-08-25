@@ -1,0 +1,22 @@
+@Tutorials(name: "Wall Excavation") {
+    @Intro(title: "감지된 벽 평면에서 유물을 드러내기") {
+        수직 평면을 감지하고, 감지된 표면에 상호 작용하는 발굴 레이어를 배치합니다.
+
+        ARKit 평면 감지 데이터를 사용해 벽의 위치와 geometry가 바뀔 때 발굴 표면을 갱신합니다.
+    }
+
+    @Chapter(name: "발굴 공간 준비") {
+        @Image(source: "chapter-space.svg", alt: "발굴 공간을 준비하는 Vision Pro 사용자")
+        @TutorialReference(tutorial: "doc:01-PrepareTheExcavationSpace")
+    }
+
+    @Chapter(name: "벽 스캔") {
+        @Image(source: "chapter-scan.svg", alt: "수직 벽 평면을 스캔하는 장면")
+        @TutorialReference(tutorial: "doc:02-ScanForDiggableWalls")
+    }
+
+    @Chapter(name: "긁어서 화석 드러내기") {
+        @Image(source: "chapter-reveal.svg", alt: "벽 표면 아래에서 화석이 드러나는 장면")
+        @TutorialReference(tutorial: "doc:03-RevealTheArtifact")
+    }
+}

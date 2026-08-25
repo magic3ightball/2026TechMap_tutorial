@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-labelledby="title">
+  <title id="title">화석 드러내기</title>
+  <rect width="800" height="450" fill="#f7f0e5"/>
+  <rect x="170" y="72" width="460" height="278" rx="8" fill="#a9754e"/>
+  <path d="M285 220c0-62 49-98 112-78 64-20 118 17 118 78 0 57-47 99-115 83-65 15-115-26-115-83Z" fill="#f5e3bb"/>
+  <circle cx="355" cy="190" r="12" fill="#8b5b3e"/>
+  <circle cx="447" cy="190" r="12" fill="#8b5b3e"/>
+  <path d="M330 245c41 22 97 22 140 0" fill="none" stroke="#8b5b3e" stroke-width="11" stroke-linecap="round"/>
+  <path d="M176 76l112 80M624 76l-112 80M176 346l112-80M624 346l-112-80" stroke="#d5b28d" stroke-width="22" stroke-linecap="round"/>
+  <text x="400" y="416" text-anchor="middle" font-family="system-ui, sans-serif" font-size="28" fill="#4f3424">긁어서 화석 드러내기</text>
+</svg>
