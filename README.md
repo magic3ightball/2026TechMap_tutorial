@@ -10,6 +10,16 @@ visionOS에서 수직 평면을 감지하고, 감지된 벽에 RealityKit 발굴
 
 - `outputs/PlaneDetectionTutorial.docc`: DocC 튜토리얼 원본과 누적 Swift 코드
 - `docs`: GitHub Pages 배포용 정적 DocC 사이트
+- `theme/cloudscape-docc.css`: Cloudscape 디자인 토큰과 패턴을 적용한 DocC 테마
+- `scripts/build-docs.sh`: 로컬 미리보기와 GitHub Pages 결과물을 함께 생성하는 빌드 스크립트
+
+## 문서 빌드
+
+```sh
+./scripts/build-docs.sh
+```
+
+테마는 Cloudscape의 표준 앱 레이아웃, 콘텐츠 레이아웃, 색상·간격·포커스 원칙을 DocC의 생성된 마크업에 맞게 적용합니다. DocC 원본과 Swift 코드에는 영향을 주지 않습니다.
 
 ## 학습 내용
 

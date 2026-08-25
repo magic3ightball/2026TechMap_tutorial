@@ -1,0 +1,631 @@
+/*
+ * Cloudscape-inspired theme for the generated DocC interface.
+ * The semantic tokens and layout choices follow Cloudscape's visual foundation,
+ * while the selectors adapt those decisions to DocC's generated markup.
+ */
+
+:root {
+    --aws-color-background-layout-main: #f2f3f3;
+    --aws-color-background-container: #ffffff;
+    --aws-color-background-header: #232f3e;
+    --aws-color-background-header-control: #354150;
+    --aws-color-background-info: #f2f8fd;
+    --aws-color-background-code: #0f1b2a;
+    --aws-color-text-body: #16191f;
+    --aws-color-text-heading: #000716;
+    --aws-color-text-muted: #5f6b7a;
+    --aws-color-text-on-dark: #f1f3f3;
+    --aws-color-text-link: #0972d3;
+    --aws-color-text-link-hover: #033160;
+    --aws-color-border: #d5dbdb;
+    --aws-color-border-strong: #879596;
+    --aws-color-primary: #0972d3;
+    --aws-color-primary-dark: #065299;
+    --aws-color-brand: #ff9900;
+    --aws-color-success: #037f0c;
+    --aws-shadow-container: 0 1px 2px rgb(0 28 36 / 10%), 0 2px 8px rgb(0 28 36 / 6%);
+    --aws-shadow-container-hover: 0 4px 16px rgb(0 28 36 / 14%);
+    --aws-radius-container: 12px;
+    --aws-radius-control: 8px;
+    --aws-content-max-width: 1180px;
+    --aws-font-family: "Amazon Ember", "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --aws-font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+body[data-color-scheme="dark"] {
+    --aws-color-background-layout-main: #0f141a;
+    --aws-color-background-container: #18212f;
+    --aws-color-background-header: #0f1b2a;
+    --aws-color-background-header-control: #273548;
+    --aws-color-background-info: #192f49;
+    --aws-color-background-code: #08111c;
+    --aws-color-text-body: #d1d5db;
+    --aws-color-text-heading: #f1f3f3;
+    --aws-color-text-muted: #aab7b8;
+    --aws-color-text-link: #89bdee;
+    --aws-color-text-link-hover: #b5d6f4;
+    --aws-color-border: #414d5c;
+    --aws-color-border-strong: #687078;
+    --aws-shadow-container: 0 1px 2px rgb(0 0 0 / 30%), 0 2px 10px rgb(0 0 0 / 22%);
+    --aws-shadow-container-hover: 0 6px 18px rgb(0 0 0 / 32%);
+}
+
+@media (prefers-color-scheme: dark) {
+    body[data-color-scheme="auto"] {
+        --aws-color-background-layout-main: #0f141a;
+        --aws-color-background-container: #18212f;
+        --aws-color-background-header: #0f1b2a;
+        --aws-color-background-header-control: #273548;
+        --aws-color-background-info: #192f49;
+        --aws-color-background-code: #08111c;
+        --aws-color-text-body: #d1d5db;
+        --aws-color-text-heading: #f1f3f3;
+        --aws-color-text-muted: #aab7b8;
+        --aws-color-text-link: #89bdee;
+        --aws-color-text-link-hover: #b5d6f4;
+        --aws-color-border: #414d5c;
+        --aws-color-border-strong: #687078;
+        --aws-shadow-container: 0 1px 2px rgb(0 0 0 / 30%), 0 2px 10px rgb(0 0 0 / 22%);
+        --aws-shadow-container-hover: 0 6px 18px rgb(0 0 0 / 32%);
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--aws-color-background-layout-main) !important;
+    color: var(--aws-color-text-body) !important;
+    font-family: var(--aws-font-family) !important;
+    -webkit-font-smoothing: antialiased;
+}
+
+main {
+    background: var(--aws-color-background-layout-main);
+}
+
+a {
+    color: var(--aws-color-text-link);
+}
+
+a:hover {
+    color: var(--aws-color-text-link-hover);
+}
+
+/* Cloudscape top navigation */
+
+.nav,
+.nav.nav--solid-background,
+.nav .nav__background {
+    background: var(--aws-color-background-header) !important;
+}
+
+.nav {
+    border-bottom: 3px solid var(--aws-color-brand) !important;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 24%);
+    color: var(--aws-color-text-on-dark) !important;
+    position: sticky !important;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav .nav-content {
+    max-width: 1440px;
+}
+
+.nav .nav-title-content,
+.nav .nav-title-content:hover,
+.nav .title,
+.nav .subhead,
+.nav .nav-ax-toggle,
+.nav .tutorials-navigation-link {
+    color: var(--aws-color-text-on-dark) !important;
+}
+
+.nav .title {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+}
+
+.nav .subhead {
+    color: #aab7b8 !important;
+    font-weight: 400;
+}
+
+.nav .separator {
+    background: #5f6b7a !important;
+}
+
+.nav .form-dropdown-toggle {
+    background: var(--aws-color-background-header-control) !important;
+    border: 1px solid #687078 !important;
+    border-radius: var(--aws-radius-control) !important;
+    color: var(--aws-color-text-on-dark) !important;
+    min-height: 40px;
+    transition: background 120ms ease, border-color 120ms ease;
+}
+
+.nav .form-dropdown-toggle:hover,
+.nav .form-dropdown-toggle:focus-visible {
+    background: #414d5c !important;
+    border-color: #aab7b8 !important;
+}
+
+.nav .form-dropdown-toggle:focus-visible,
+.nav a:focus-visible {
+    outline: 2px solid #89bdee !important;
+    outline-offset: 2px;
+}
+
+.nav .form-dropdown-toggle svg {
+    color: var(--aws-color-text-on-dark) !important;
+    fill: currentColor !important;
+}
+
+.nav .form-dropdown-content,
+.nav .nav-menu-tray {
+    background: var(--aws-color-background-container) !important;
+    border: 1px solid var(--aws-color-border) !important;
+    border-radius: var(--aws-radius-control) !important;
+    box-shadow: var(--aws-shadow-container-hover) !important;
+    color: var(--aws-color-text-body) !important;
+}
+
+.nav .form-dropdown-content .option,
+.nav .form-dropdown-content .chapter-name,
+.nav .nav-menu-tray .option,
+.nav .nav-menu-tray .chapter-name {
+    color: var(--aws-color-text-body) !important;
+}
+
+.nav .form-dropdown-content .option-active,
+.nav .form-dropdown-content .option:hover,
+.nav .nav-menu-tray .router-link-active {
+    background: var(--aws-color-background-info) !important;
+    color: var(--aws-color-text-link) !important;
+}
+
+/* Tutorial content header */
+
+.tutorial-hero .hero.dark {
+    background:
+        linear-gradient(115deg, rgb(9 114 211 / 8%), transparent 44%),
+        var(--aws-color-background-container) !important;
+    border-bottom: 1px solid var(--aws-color-border);
+    color: var(--aws-color-text-body) !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding-bottom: 52px !important;
+    padding-top: 56px !important;
+    position: relative;
+}
+
+.tutorial-hero .hero.dark::before {
+    background: var(--aws-color-brand);
+    content: "";
+    height: 4px;
+    left: max(24px, calc((100% - var(--aws-content-max-width)) / 2));
+    position: absolute;
+    top: 0;
+    width: 72px;
+}
+
+.tutorial-hero .hero.dark .row {
+    max-width: var(--aws-content-max-width) !important;
+}
+
+.tutorial-hero .hero.dark .eyebrow {
+    color: var(--aws-color-primary) !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.tutorial-hero .hero.dark .heading {
+    color: var(--aws-color-text-heading) !important;
+    font-size: clamp(34px, 4vw, 48px) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.025em;
+    line-height: 1.18 !important;
+    margin-top: 10px !important;
+}
+
+.tutorial-hero .hero.dark .intro > .content {
+    color: var(--aws-color-text-body) !important;
+    font-size: 18px !important;
+    line-height: 1.7 !important;
+    max-width: 760px;
+}
+
+.tutorial-hero .metadata {
+    align-items: center;
+    background: var(--aws-color-background-info) !important;
+    border: 1px solid #b5d6f4;
+    border-radius: 999px;
+    color: var(--aws-color-text-heading) !important;
+    display: inline-flex !important;
+    margin-top: 24px !important;
+    padding: 8px 14px !important;
+}
+
+.tutorial-hero .metadata .item,
+.tutorial-hero .metadata .content,
+.tutorial-hero .metadata .duration,
+.tutorial-hero .metadata .minutes,
+.tutorial-hero .metadata .bottom {
+    color: inherit !important;
+}
+
+.tutorial-hero .metadata .duration {
+    font-size: 16px !important;
+    font-weight: 700;
+}
+
+.tutorial-hero .metadata .bottom {
+    color: var(--aws-color-text-muted) !important;
+    font-size: 12px !important;
+    margin-left: 8px;
+}
+
+/* Tutorial sections and tasks */
+
+.sections {
+    box-sizing: border-box;
+    margin: 0 auto !important;
+    max-width: var(--aws-content-max-width) !important;
+    padding: 36px 24px 72px !important;
+}
+
+.sections > .section {
+    background: var(--aws-color-background-container) !important;
+    border: 1px solid var(--aws-color-border);
+    border-radius: var(--aws-radius-container);
+    box-shadow: var(--aws-shadow-container);
+    margin: 0 0 28px !important;
+    overflow: clip;
+    padding: 0 !important;
+}
+
+.section .intro-container {
+    background: var(--aws-color-background-container) !important;
+    padding: 32px 34px 26px !important;
+}
+
+.section .intro-container .row {
+    margin: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+}
+
+.section .intro-container .col.left {
+    max-width: 880px;
+    width: 100% !important;
+}
+
+.section .intro-container .eyebrow {
+    color: var(--aws-color-primary) !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.section .intro-container .heading {
+    color: var(--aws-color-text-heading) !important;
+    font-size: clamp(24px, 3vw, 30px) !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.015em;
+    line-height: 1.3 !important;
+}
+
+.section .intro-container p,
+.section .intro-container li {
+    color: var(--aws-color-text-body) !important;
+    font-size: 16px !important;
+    line-height: 1.75 !important;
+}
+
+.section .steps {
+    background: var(--aws-color-background-layout-main) !important;
+    border-top: 1px solid var(--aws-color-border);
+    padding-bottom: 28px !important;
+    padding-top: 28px !important;
+}
+
+.section .steps:has(> .asset-container:empty) {
+    display: block !important;
+    height: auto !important;
+    min-height: 0 !important;
+}
+
+.section .steps:has(> .asset-container:empty) > .content-container {
+    box-sizing: border-box;
+    height: auto !important;
+    max-width: 840px;
+    min-height: 0 !important;
+    width: 100% !important;
+}
+
+.section .steps:has(> .asset-container:empty) > .asset-container {
+    display: none !important;
+}
+
+.section .steps .content-container {
+    padding-left: 28px !important;
+    padding-right: 28px !important;
+}
+
+.section .step-container {
+    margin-bottom: 14px !important;
+}
+
+.section .step {
+    background: var(--aws-color-background-container) !important;
+    border: 1px solid var(--aws-color-border) !important;
+    border-left: 4px solid var(--aws-color-primary) !important;
+    border-radius: var(--aws-radius-control) !important;
+    box-shadow: 0 1px 2px rgb(0 28 36 / 6%);
+    color: var(--aws-color-text-body) !important;
+    padding: 20px 22px !important;
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.section .step.focused {
+    border-color: var(--aws-color-primary) !important;
+    box-shadow: 0 0 0 1px var(--aws-color-primary), 0 2px 8px rgb(9 114 211 / 12%);
+}
+
+.section .step-label {
+    color: var(--aws-color-primary) !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px !important;
+    text-transform: uppercase;
+}
+
+.section .step .content,
+.section .step p,
+.section .step li {
+    color: var(--aws-color-text-body) !important;
+    font-size: 15px !important;
+    line-height: 1.7 !important;
+}
+
+main p code,
+main li code {
+    background: var(--aws-color-background-info) !important;
+    border: 1px solid #b5d6f4;
+    border-radius: 4px;
+    color: var(--aws-color-text-link-hover) !important;
+    font-family: var(--aws-font-mono) !important;
+    font-size: 0.9em;
+    padding: 1px 5px;
+}
+
+.code-listing {
+    background: var(--aws-color-background-code) !important;
+    border: 1px solid var(--aws-color-border-strong) !important;
+    border-radius: var(--aws-radius-control) !important;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+    overflow: hidden !important;
+}
+
+.code-listing .filename {
+    background: #202b3c !important;
+    border-bottom: 1px solid #414d5c;
+    color: #f1f3f3 !important;
+    display: block;
+    font-family: var(--aws-font-mono) !important;
+    font-size: 12px !important;
+    font-weight: 700;
+    padding: 12px 16px !important;
+}
+
+.code-listing .container-general {
+    background: var(--aws-color-background-code) !important;
+    color: #d1d5db !important;
+    font-family: var(--aws-font-mono) !important;
+}
+
+.code-listing .code-number {
+    color: #687078 !important;
+}
+
+.code-listing .syntax-keyword,
+.code-listing .syntax-meta {
+    color: #ffb84d !important;
+}
+
+.code-listing .syntax-type,
+.code-listing .syntax-title {
+    color: #89bdee !important;
+}
+
+.code-listing .syntax-string {
+    color: #7ee787 !important;
+}
+
+.runtime-preview .header {
+    background: var(--aws-color-background-container) !important;
+    border-color: var(--aws-color-border) !important;
+    color: var(--aws-color-text-muted) !important;
+}
+
+.call-to-action {
+    background: var(--aws-color-background-layout-main) !important;
+    padding-bottom: 72px !important;
+}
+
+.call-to-action .row {
+    background: var(--aws-color-background-container);
+    border: 1px solid var(--aws-color-border);
+    border-radius: var(--aws-radius-container);
+    box-shadow: var(--aws-shadow-container);
+    max-width: var(--aws-content-max-width) !important;
+    padding: 26px 30px;
+}
+
+.call-to-action h2,
+.call-to-action p {
+    color: var(--aws-color-text-heading) !important;
+}
+
+/* Tutorials overview */
+
+main > .radial-gradient {
+    background:
+        radial-gradient(circle at 82% 18%, rgb(9 114 211 / 13%), transparent 26%),
+        linear-gradient(135deg, var(--aws-color-background-header), #354150) !important;
+    color: var(--aws-color-text-on-dark) !important;
+}
+
+main > .radial-gradient .hero {
+    max-width: var(--aws-content-max-width) !important;
+}
+
+main > .radial-gradient h1,
+main > .radial-gradient p,
+main > .radial-gradient strong {
+    color: var(--aws-color-text-on-dark) !important;
+}
+
+main > .radial-gradient h1 {
+    font-size: clamp(38px, 4.4vw, 52px) !important;
+    font-weight: 750 !important;
+    letter-spacing: -0.03em;
+    line-height: 1.14 !important;
+}
+
+main > .radial-gradient .copy-container {
+    max-width: 900px !important;
+    width: min(900px, 100%) !important;
+}
+
+main > .radial-gradient .button-cta {
+    background: var(--aws-color-primary) !important;
+    border: 1px solid #89bdee !important;
+    border-radius: var(--aws-radius-control) !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    transition: background 120ms ease, transform 120ms ease;
+}
+
+main > .radial-gradient .button-cta:hover {
+    background: var(--aws-color-primary-dark) !important;
+    transform: translateY(-1px);
+}
+
+.learning-path {
+    background: var(--aws-color-background-layout-main) !important;
+    color: var(--aws-color-text-body) !important;
+    padding-bottom: 80px !important;
+    padding-top: 48px !important;
+}
+
+.learning-path > * {
+    max-width: var(--aws-content-max-width) !important;
+}
+
+.learning-path .chapter {
+    background: transparent !important;
+}
+
+.learning-path .chapter .name,
+.learning-path .chapter h2,
+.learning-path .topic .name,
+.learning-path .topic h3 {
+    color: var(--aws-color-text-heading) !important;
+}
+
+.learning-path .chapter .intro {
+    border-left: 4px solid var(--aws-color-brand);
+    padding-left: 16px;
+}
+
+.learning-path .topic.tutorial .container {
+    background: var(--aws-color-background-container) !important;
+    border: 1px solid var(--aws-color-border) !important;
+    border-radius: var(--aws-radius-container) !important;
+    box-shadow: var(--aws-shadow-container);
+    color: var(--aws-color-text-body) !important;
+    min-height: 96px;
+    transition: border-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
+}
+
+.learning-path .topic.tutorial .container:hover {
+    border-color: var(--aws-color-primary) !important;
+    box-shadow: var(--aws-shadow-container-hover);
+    transform: translateY(-2px);
+}
+
+.learning-path .topic.tutorial .container * {
+    color: inherit;
+}
+
+/* Footer and focus treatment */
+
+footer,
+.contentinfo {
+    background: var(--aws-color-background-container) !important;
+    border-top: 1px solid var(--aws-color-border);
+    color: var(--aws-color-text-muted) !important;
+}
+
+main a:focus-visible,
+main button:focus-visible {
+    outline: 3px solid #89bdee !important;
+    outline-offset: 2px;
+}
+
+@media (max-width: 735px) {
+    .tutorial-hero .hero.dark {
+        padding-bottom: 36px !important;
+        padding-top: 40px !important;
+    }
+
+    .sections {
+        padding: 20px 12px 48px !important;
+    }
+
+    .section .intro-container {
+        padding: 24px 20px 18px !important;
+    }
+
+    .section .steps {
+        padding-bottom: 18px !important;
+        padding-top: 18px !important;
+    }
+
+    .section .steps .content-container {
+        padding-left: 14px !important;
+        padding-right: 14px !important;
+    }
+
+    .section .step {
+        padding: 16px !important;
+    }
+
+    .call-to-action {
+        padding: 0 12px 48px !important;
+    }
+
+    .call-to-action .row {
+        padding: 22px 18px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
