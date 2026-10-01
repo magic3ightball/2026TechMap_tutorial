@@ -8,13 +8,14 @@
 2. `PlaneDetectionProvider`로 수직 `PlaneAnchor`를 감지합니다.
 3. `added`, `updated`, `removed` 이벤트에 맞춰 RealityKit entity를 관리합니다.
 4. 감지된 평면에 collision과 targeted gesture를 연결합니다.
-5. 표면을 문지르면 cover가 사라지고 artifact placeholder가 나타나는 결과를 만듭니다.
+5. 표면을 문지를수록 cover가 옅어지다가 사라지고 artifact placeholder가 나타나는 결과를 만듭니다.
+6. 시뮬레이터에서는 연습용 벽으로 발굴 상호 작용을 확인합니다.
 
 ## 요구사항
 
 - Xcode 16 이상
 - visionOS 2.0 이상 deployment target
-- 실제 환경의 평면 감지를 테스트할 Apple Vision Pro
+- 실제 환경의 평면 감지를 테스트할 Apple Vision Pro (3장 발굴 상호 작용은 visionOS 시뮬레이터에서도 확인 가능)
 - Swift와 SwiftUI 파일을 만들고 교체하는 기본적인 Xcode 사용 경험
 
 ## Xcode에서 사용하기
@@ -25,11 +26,11 @@
 4. `Wall Excavation` 튜토리얼의 세 장을 순서대로 진행합니다.
 5. 각 장의 마지막 성공 기준을 모두 확인한 뒤 다음 장으로 이동합니다.
 
-`Tutorials/Resources`의 코드는 누적 스냅샷입니다. `01-` 파일로 앱 구조를 만든 뒤 `ExcavationTracker.swift`를 `02-`, `03-` 버전으로 차례로 교체합니다. `ImmersiveView.swift`는 마지막 장에서 `03-` 버전으로 교체합니다.
+`Tutorials/Resources`의 코드는 단계별 누적 스냅샷입니다. 파일 이름은 `장 번호-파일 이름-단계 번호.swift` 형식이며, 같은 파일의 연속 단계는 DocC가 변경된 줄을 강조해 표시합니다. 예를 들어 `ExcavationTracker.swift`는 `01-` → `02-…-1` → `02-…-2` → `03-…-1` → `03-…-2` → `03-…-3` 순서로 바뀝니다.
 
 ## 구현 범위
 
-최종 장은 0.25초 간격으로 여섯 번의 drag update를 계산한 뒤 cover 전체를 숨깁니다. 손이 지나간 위치만 연속적으로 지우려면 texture alpha mask 또는 Metal shader를 별도로 구현해야 합니다. 이 단순화는 plane detection, anchor update, entity lifecycle과 입력 연결에 학습 범위를 집중하기 위한 것입니다.
+최종 장은 0.25초 간격으로 여섯 번의 drag update를 계산하고, 입력마다 `OpacityComponent`로 cover를 옅게 만든 뒤 cover 전체를 숨깁니다. 손이 지나간 위치만 연속적으로 지우려면 texture alpha mask 또는 Metal shader를 별도로 구현해야 합니다. 이 단순화는 plane detection, anchor update, entity lifecycle과 입력 연결에 학습 범위를 집중하기 위한 것입니다.
 
 ## 공식 참고 자료
 

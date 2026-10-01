@@ -11,11 +11,18 @@ final class ExcavationWall {
         materials: [SimpleMaterial(color: .orange, isMetallic: false)]
     )
 
-    private var brushCount = 0
-    private var lastBrushTime = Date.distantPast
-    private let requiredBrushCount = 6
-
     init(anchor: PlaneAnchor) async throws {
+        configure(id: anchor.id)
+        try await update(using: anchor)
+    }
+
+    func update(using anchor: PlaneAnchor) async throws {
+        let mesh = try await MeshResource(from: anchor)
+        applyCover(mesh: mesh)
+        root.transform = Transform(matrix: anchor.originFromAnchorTransform)
+    }
+
+    private func configure(id: UUID) {
         root.addChild(artifact)
         root.addChild(cover)
 
@@ -23,36 +30,13 @@ final class ExcavationWall {
         artifact.position = [0, 0, 0.02]
         artifact.isEnabled = false
 
-        cover.name = anchor.id.uuidString
+        cover.name = id.uuidString
         cover.components.set(InputTargetComponent())
-        try await update(using: anchor)
     }
 
-    func update(using anchor: PlaneAnchor) async throws {
-        let mesh = try await MeshResource(from: anchor)
+    private func applyCover(mesh: MeshResource) {
         let material = SimpleMaterial(color: .brown, isMetallic: false)
         cover.model = ModelComponent(mesh: mesh, materials: [material])
         cover.generateCollisionShapes(recursive: false)
-        root.transform = Transform(matrix: anchor.originFromAnchorTransform)
-    }
-
-    func brush() {
-        guard cover.isEnabled else {
-            return
-        }
-
-        let now = Date.now
-        guard now.timeIntervalSince(lastBrushTime) >= 0.25 else {
-            return
-        }
-        lastBrushTime = now
-
-        brushCount += 1
-        guard brushCount >= requiredBrushCount else {
-            return
-        }
-
-        cover.isEnabled = false
-        artifact.isEnabled = true
     }
 }

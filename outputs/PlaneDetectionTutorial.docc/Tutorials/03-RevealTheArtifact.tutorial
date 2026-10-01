@@ -1,6 +1,6 @@
-@Tutorial(time: 45) {
+@Tutorial(time: 55) {
     @Intro(title: "발굴 레이어에서 유물 드러내기") {
-        감지된 평면을 상호 작용 가능한 갈색 발굴 표면으로 바꾸고, 드래그 입력으로 숨겨진 유물을 표시합니다.
+        감지된 평면을 상호 작용 가능한 갈색 발굴 표면으로 바꾸고, 문지를수록 옅어지는 표면 아래에서 숨겨진 유물을 표시합니다.
     }
 
     @Section(title: "평면 marker를 발굴 surface로 바꾸기") {
@@ -12,46 +12,64 @@
             - **collision shape**는 손이나 시선이 맞힐 수 있는 입력 영역입니다.
             - **InputTargetComponent**는 entity가 시스템 입력을 받을 수 있게 합니다.
 
-            anchor geometry가 바뀔 때 cover mesh와 collision shape를 함께 다시 생성합니다. 따라서 눈에 보이는 표면과 실제 입력 영역이 같은 범위를 유지합니다.
+            anchor geometry가 바뀔 때 cover mesh와 collision shape를 함께 다시 생성합니다. 따라서 눈에 보이는 표면과 실제 입력 영역이 같은 범위를 유지합니다. 이 섹션에서는 표면만 만들고, 문지르기 입력은 다음 섹션에서 추가합니다.
         }
 
         @Steps {
             @Step {
+                **File > New > File > Swift File**을 선택하고 `ExcavationWall.swift`를 만듭니다. 다음 코드를 붙여 넣고 **Target Membership**을 확인합니다.
+
+                `configure(id:)`는 cover와 artifact를 한 번만 구성하고, `applyCover(mesh:)`는 geometry가 바뀔 때마다 mesh와 collision shape를 함께 교체합니다.
+
+                @Code(name: "ExcavationWall.swift", file: "03-ExcavationWall-1.swift")
+            }
+
+            @Step {
                 `ExcavationTracker.swift`를 열고 전체 내용을 다음 코드로 교체합니다.
 
-                `PlaneMarker` dictionary가 `ExcavationWall` dictionary로 바뀌지만, `added`, `updated`, `removed` 처리 구조는 유지됩니다.
+                `PlaneMarker` dictionary가 `ExcavationWall` dictionary로 바뀌지만, `added`, `updated`, `removed` 처리 구조는 2장과 같습니다.
 
-                @Code(name: "ExcavationTracker.swift", file: "03-ExcavationTracker.swift")
+                @Code(name: "ExcavationTracker.swift", file: "03-ExcavationTracker-1.swift", previousFile: "02-ExcavationTracker-2.swift")
             }
 
             @Step {
-                **File > New > File > Swift File**을 선택하고 `ExcavationWall.swift`를 만듭니다. 다음 코드를 붙여 넣습니다.
-
-                @Code(name: "ExcavationWall.swift", file: "03-ExcavationWall.swift")
+                `PlaneMarker.swift`는 더 이상 tracker에서 사용하지 않습니다. 파일을 남겨도 빌드에는 문제가 없지만, 최종 구조를 단순하게 유지하려면 Target Membership을 해제합니다.
             }
 
             @Step {
-                `ExcavationWall.swift`가 `PlaneExcavation` target에 포함되어 있는지 **Target Membership**에서 확인합니다.
-            }
+                Command-B로 빌드한 뒤 Apple Vision Pro에서 실행합니다. 2장의 cyan marker 대신 갈색 cover가 감지된 벽 위치에 나타나면 `ExcavationWall.update(using:)`이 동작한 것입니다.
 
-            @Step {
-                `PlaneMarker.swift`는 더 이상 tracker에서 사용하지 않습니다. 파일을 프로젝트에 남겨도 빌드에는 문제가 없지만, 최종 구조를 단순하게 유지하려면 Target Membership을 해제합니다.
+                @Code(name: "ExcavationWall.swift", file: "03-ExcavationWall-1.swift")
             }
         }
     }
 
-    @Section(title: "targeted drag gesture 연결하기") {
+    @Section(title: "문지르기 입력 연결하기") {
         @ContentAndMedia {
             일반 `DragGesture`는 화면 위의 드래그 값만 전달합니다. `targetedToAnyEntity()`를 추가하면 gesture value에서 입력을 받은 RealityKit entity를 읽을 수 있습니다.
 
             cover의 `name`에는 anchor id가 저장되어 있습니다. tracker는 이 id로 해당 `ExcavationWall`을 찾고 `brush()`를 호출합니다.
+
+            `onChanged`는 한 번의 드래그 중에도 여러 번 호출됩니다. `brush()`는 0.25초보다 빠른 호출을 무시하고, 유효한 입력마다 `OpacityComponent`로 cover를 조금씩 옅게 만듭니다. 여섯 번의 입력이 쌓이면 cover를 숨기고 artifact를 표시합니다.
         }
 
         @Steps {
             @Step {
-                `ImmersiveView.swift`를 열고 전체 내용을 다음 코드로 교체합니다.
+                `ExcavationWall.swift`에 brush 상태 값과 `brush()` 함수를 추가합니다. 강조된 줄이 이전 단계에서 추가된 부분입니다.
 
-                @Code(name: "ImmersiveView.swift", file: "03-ImmersiveView.swift")
+                @Code(name: "ExcavationWall.swift", file: "03-ExcavationWall-2.swift", previousFile: "03-ExcavationWall-1.swift")
+            }
+
+            @Step {
+                `ExcavationTracker.swift`에 `brush(entity:)`를 추가합니다. entity 이름을 anchor id로 바꾼 뒤 해당 wall에 입력을 전달합니다.
+
+                @Code(name: "ExcavationTracker.swift", file: "03-ExcavationTracker-2.swift", previousFile: "03-ExcavationTracker-1.swift")
+            }
+
+            @Step {
+                `ImmersiveView.swift`를 열고 targeted drag gesture를 추가합니다.
+
+                @Code(name: "ImmersiveView.swift", file: "03-ImmersiveView.swift", previousFile: "01-ImmersiveView.swift")
             }
 
             @Step {
@@ -60,11 +78,9 @@
         }
     }
 
-    @Section(title: "발굴 상호 작용 실행하기") {
+    @Section(title: "Apple Vision Pro에서 발굴하기") {
         @ContentAndMedia {
-            `onChanged`는 한 번의 드래그 중에도 여러 번 호출됩니다. 예제는 0.25초보다 빠른 호출을 무시하고, 여섯 번의 유효한 입력이 쌓이면 cover 전체를 숨긴 뒤 artifact를 표시합니다.
-
-            이 단계의 목표는 plane detection 결과를 입력 가능한 RealityKit entity로 연결하는 것입니다. 손가락이 지나간 위치만 지워지는 texture mask 방식은 이 튜토리얼의 확장 범위입니다.
+            이제 감지된 벽에서 전체 흐름을 확인합니다. 손이 지나간 위치만 지워지는 texture mask 방식은 이 튜토리얼의 확장 범위입니다. 이 장은 plane detection 결과를 입력 가능한 RealityKit entity로 연결하는 데 집중합니다.
         }
 
         @Steps {
@@ -73,15 +89,47 @@
             }
 
             @Step {
-                감지된 벽 위치에 갈색 발굴 표면이 나타나는지 확인합니다. 2장의 cyan marker 대신 갈색 cover가 보여야 합니다.
+                갈색 표면을 바라보며 pinch 상태로 천천히 문지릅니다. 문지를 때마다 cover가 조금씩 옅어지면 `brush()`의 `OpacityComponent` 분기가 동작한 것입니다.
+
+                @Code(name: "ExcavationWall.swift", file: "03-ExcavationWall-2.swift", previousFile: "03-ExcavationWall-1.swift")
             }
 
             @Step {
-                갈색 표면을 바라보며 pinch 상태로 천천히 문지릅니다. 짧게 반복하기보다 0.25초 이상 이어지는 동작을 여러 번 수행합니다.
+                여섯 번의 유효한 입력 뒤 cover가 사라지고 주황색 구 placeholder가 나타나는지 확인합니다. 이 결과는 `brush()` 마지막의 `cover.isEnabled = false`와 `artifact.isEnabled = true`에서 나옵니다.
+
+                @Code(name: "ExcavationWall.swift", file: "03-ExcavationWall-2.swift", previousFile: "03-ExcavationWall-1.swift")
+            }
+        }
+    }
+
+    @Section(title: "시뮬레이터에서 연습 벽으로 확인하기") {
+        @ContentAndMedia {
+            visionOS 시뮬레이터에서는 `PlaneDetectionProvider`를 사용할 수 없습니다. Apple Vision Pro가 없어도 발굴 상호 작용을 확인할 수 있도록, 시뮬레이터에서만 사람 앞에 연습용 벽을 표시합니다.
+
+            `#if targetEnvironment(simulator)`는 컴파일 시점에 실행 대상을 구분합니다. 시뮬레이터 빌드는 `showPracticeWall()`을, 실제 기기 빌드는 지금까지 만든 `startPlaneDetection()`을 사용합니다. 연습용 벽은 `MeshResource.generatePlane`으로 만든 1.2m × 0.8m 평면이며, cover·collision·brush 처리는 실제 벽과 같은 코드를 공유합니다.
+        }
+
+        @Steps {
+            @Step {
+                `ExcavationWall.swift`에 연습용 벽 initializer를 추가합니다.
+
+                @Code(name: "ExcavationWall.swift", file: "03-ExcavationWall-3.swift", previousFile: "03-ExcavationWall-2.swift")
             }
 
             @Step {
-                여섯 번의 유효한 입력 뒤 갈색 cover가 사라지고 중앙에 주황색 구 placeholder가 나타나는지 확인합니다.
+                `ExcavationTracker.swift`에 `practice` 상태와 `showPracticeWall()`을 추가하고, `start()`가 실행 대상에 따라 두 경로 중 하나를 선택하도록 바꿉니다.
+
+                @Code(name: "ExcavationTracker.swift", file: "03-ExcavationTracker-3.swift", previousFile: "03-ExcavationTracker-2.swift")
+            }
+
+            @Step {
+                실행 대상을 **Apple Vision Pro** 시뮬레이터로 선택하고 앱을 실행합니다. **발굴 시작**을 선택하면 앞쪽 약 1.5m 위치에 갈색 연습용 벽이 나타나고, 상태 문구가 `시뮬레이터에서는 실제 벽 대신 연습용 벽을 표시합니다.`로 바뀝니다.
+            }
+
+            @Step {
+                시뮬레이터에서 연습용 벽을 클릭한 채 천천히 드래그합니다. cover가 단계적으로 옅어지다가 사라지고 주황색 구가 나타나면 입력 연결이 실제 기기와 같은 방식으로 동작하는 것입니다.
+
+                시뮬레이터 결과는 입력과 reveal 로직을 확인하는 용도입니다. 실제 벽 감지와 anchor 갱신은 Apple Vision Pro에서만 확인할 수 있습니다.
             }
         }
     }
@@ -93,7 +141,7 @@
             1. 앱이 world-sensing 권한을 요청합니다.
             2. ARKit이 수직 평면을 감지합니다.
             3. anchor update에 맞춰 갈색 cover의 위치와 모양이 갱신됩니다.
-            4. targeted drag 입력이 cover entity에 전달됩니다.
+            4. targeted drag 입력이 cover entity에 전달되고 cover가 점점 옅어집니다.
             5. 입력 횟수가 충족되면 cover가 사라지고 artifact가 표시됩니다.
 
             cover는 보이지만 입력되지 않는다면 `InputTargetComponent`와 collision shape 생성 코드를 확인합니다. 입력은 되지만 artifact가 보이지 않는다면 `artifact.isEnabled` 변경과 주황색 material을 확인합니다.
@@ -101,11 +149,15 @@
 
         @Steps {
             @Step {
-                벽을 추가로 관찰해 anchor가 갱신된 뒤에도 cover를 문지를 수 있는지 확인합니다. 이 검사는 갱신된 mesh에 collision shape가 다시 생성되는지 확인합니다.
+                벽을 추가로 관찰해 anchor가 갱신된 뒤에도 cover를 문지를 수 있는지 확인합니다. 이 검사는 `applyCover(mesh:)`가 갱신된 mesh에 collision shape를 다시 생성하는지 확인합니다.
+
+                @Code(name: "ExcavationWall.swift", file: "03-ExcavationWall-3.swift", previousFile: "03-ExcavationWall-2.swift")
             }
 
             @Step {
-                공간을 닫았다가 다시 열어 이전 발굴 surface가 남지 않고 새 평면 감지가 시작되는지 확인합니다.
+                **발굴 종료**를 선택했다가 다시 **발굴 시작**을 선택합니다. 이전 발굴 surface가 남지 않고 새 평면 감지가 시작되면 `stop()`의 정리 코드와 `startPlaneDetection()`의 provider 재생성이 함께 동작한 것입니다.
+
+                @Code(name: "ExcavationTracker.swift", file: "03-ExcavationTracker-3.swift", previousFile: "03-ExcavationTracker-2.swift")
             }
         }
     }

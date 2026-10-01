@@ -5,7 +5,7 @@
 
     @Section(title: "visionOS 프로젝트 만들기") {
         @ContentAndMedia {
-            이 튜토리얼을 시작하려면 Xcode 16 이상, visionOS 2.0 이상, 평면 감지를 실행할 Apple Vision Pro가 필요합니다. 시뮬레이터에서는 실제 방의 벽을 감지하는 최종 결과를 확인할 수 없습니다.
+            이 튜토리얼을 시작하려면 Xcode 16 이상과 visionOS 2.0 이상이 필요합니다. 실제 방의 벽을 감지하는 2장은 Apple Vision Pro에서만 확인할 수 있습니다. 1장의 앱 구조와 3장의 발굴 상호 작용은 visionOS 시뮬레이터에서도 확인할 수 있습니다.
 
             프로젝트 이름과 파일 이름을 아래 단계와 동일하게 사용하면 이후 코드를 그대로 붙여 넣을 수 있습니다.
         }
@@ -53,7 +53,7 @@
             @Step {
                 기존 `ContentView.swift`의 전체 내용을 다음 코드로 교체합니다.
 
-                버튼은 `ExcavationSpace`를 열고, 공간 열기가 실패하거나 취소되면 사람이 확인할 수 있는 메시지를 표시합니다.
+                공간이 닫혀 있으면 **발굴 시작** 버튼이 `ExcavationSpace`를 열고, 열기가 실패하거나 취소되면 메시지를 표시합니다. 공간이 열려 있으면 같은 자리에 **발굴 종료** 버튼이 나타나 `dismissImmersiveSpace`로 공간을 닫습니다. 버튼 전환은 tracker의 `isImmersiveSpaceOpen` 값을 따릅니다.
 
                 @Code(name: "ContentView.swift", file: "01-ContentView.swift")
             }
@@ -105,17 +105,26 @@
             - 프로젝트가 오류 없이 빌드됩니다.
             - 앱 창에 **발굴 시작** 버튼과 상태 문구가 나타납니다.
             - 버튼을 선택하면 Immersive Space가 열립니다.
+            - **발굴 종료**를 선택하면 공간이 닫히고 상태가 처음으로 돌아갑니다.
         }
 
         @Steps {
             @Step {
-                Apple Vision Pro를 실행 대상으로 선택하고 앱을 실행합니다. **발굴 시작**을 선택합니다.
+                Apple Vision Pro 또는 visionOS 시뮬레이터를 실행 대상으로 선택하고 앱을 실행합니다. **발굴 시작**을 선택합니다.
             }
 
             @Step {
                 공간이 열리고 상태가 `발굴 공간이 열렸습니다. 다음 장에서 벽 감지를 추가합니다.`로 바뀌는지 확인합니다.
 
                 공간이 열리지 않으면 target이 visionOS 앱인지, `PlaneExcavationApp.swift`의 `ImmersiveSpace` id와 `ContentView.swift`의 id가 모두 `ExcavationSpace`인지 확인합니다.
+            }
+
+            @Step {
+                **발굴 종료**를 선택합니다. 공간이 닫히고 버튼이 다시 **발굴 시작**으로 바뀌며, 상태가 `발굴을 시작할 준비가 되었습니다.`로 돌아오는지 확인합니다.
+
+                이 동작은 `ImmersiveView`의 `onDisappear`가 `tracker.stop()`을 호출해 상태를 `idle`로 되돌리기 때문입니다.
+
+                @Code(name: "ExcavationTracker.swift", file: "01-ExcavationTracker.swift")
             }
         }
     }

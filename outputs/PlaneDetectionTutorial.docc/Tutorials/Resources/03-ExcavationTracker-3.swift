@@ -11,15 +11,20 @@ final class ExcavationTracker {
         case unsupported
         case authorizationDenied
         case scanning
+        case practice
         case failed(String)
     }
 
     let rootEntity = Entity()
-    private let session = ARKitSession()
-    private let provider = PlaneDetectionProvider(alignments: [.vertical])
-    private var markers: [UUID: PlaneMarker] = [:]
+    private var session = ARKitSession()
+    private var provider = PlaneDetectionProvider(alignments: [.vertical])
+    private var walls: [UUID: ExcavationWall] = [:]
 
     private(set) var state: State = .idle
+
+    var isImmersiveSpaceOpen: Bool {
+        state != .idle
+    }
 
     var statusMessage: String {
         switch state {
@@ -32,13 +37,23 @@ final class ExcavationTracker {
         case .authorizationDenied:
             "평면 감지를 사용하려면 주변 환경 접근 권한이 필요합니다."
         case .scanning:
-            "벽을 천천히 바라보며 수직 평면을 찾으세요."
+            "벽을 천천히 바라본 뒤, 갈색 발굴 표면을 문지르세요."
+        case .practice:
+            "시뮬레이터에서는 실제 벽 대신 연습용 벽을 표시합니다. 갈색 표면을 문지르세요."
         case .failed(let message):
             "평면 감지를 시작하지 못했습니다: \(message)"
         }
     }
 
     func start() async {
+        #if targetEnvironment(simulator)
+        showPracticeWall()
+        #else
+        await startPlaneDetection()
+        #endif
+    }
+
+    private func startPlaneDetection() async {
         guard state != .scanning else {
             return
         }
@@ -47,6 +62,10 @@ final class ExcavationTracker {
             state = .unsupported
             return
         }
+
+        // A stopped data provider can't run again, so each scan uses new instances.
+        session = ARKitSession()
+        provider = PlaneDetectionProvider(alignments: [.vertical])
 
         state = .requestingAuthorization
         let authorization = await session.requestAuthorization(
@@ -71,11 +90,31 @@ final class ExcavationTracker {
 
     func stop() {
         session.stop()
-        for marker in markers.values {
-            marker.root.removeFromParent()
+        for wall in walls.values {
+            wall.root.removeFromParent()
         }
-        markers.removeAll()
+        walls.removeAll()
         state = .idle
+    }
+
+    func brush(entity: Entity) {
+        guard let anchorID = UUID(uuidString: entity.name) else {
+            return
+        }
+
+        walls[anchorID]?.brush()
+    }
+
+    private func showPracticeWall() {
+        guard walls.isEmpty else {
+            return
+        }
+
+        let id = UUID()
+        let wall = ExcavationWall(practiceWallID: id)
+        walls[id] = wall
+        rootEntity.addChild(wall.root)
+        state = .practice
     }
 
     private func process(_ update: AnchorUpdate<PlaneAnchor>) async {
@@ -84,23 +123,23 @@ final class ExcavationTracker {
         switch update.event {
         case .added:
             do {
-                let marker = try await PlaneMarker(anchor: anchor)
-                markers[anchor.id] = marker
-                rootEntity.addChild(marker.root)
+                let wall = try await ExcavationWall(anchor: anchor)
+                walls[anchor.id] = wall
+                rootEntity.addChild(wall.root)
             } catch {
                 state = .failed(error.localizedDescription)
             }
 
         case .updated:
             do {
-                try await markers[anchor.id]?.update(using: anchor)
+                try await walls[anchor.id]?.update(using: anchor)
             } catch {
                 state = .failed(error.localizedDescription)
             }
 
         case .removed:
-            markers[anchor.id]?.root.removeFromParent()
-            markers.removeValue(forKey: anchor.id)
+            walls[anchor.id]?.root.removeFromParent()
+            walls.removeValue(forKey: anchor.id)
         }
     }
 }

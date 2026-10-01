@@ -15,11 +15,14 @@ final class ExcavationTracker {
     }
 
     let rootEntity = Entity()
-    private let session = ARKitSession()
-    private let provider = PlaneDetectionProvider(alignments: [.vertical])
-    private var walls: [UUID: ExcavationWall] = [:]
+    private var session = ARKitSession()
+    private var provider = PlaneDetectionProvider(alignments: [.vertical])
 
     private(set) var state: State = .idle
+
+    var isImmersiveSpaceOpen: Bool {
+        state != .idle
+    }
 
     var statusMessage: String {
         switch state {
@@ -32,7 +35,7 @@ final class ExcavationTracker {
         case .authorizationDenied:
             "평면 감지를 사용하려면 주변 환경 접근 권한이 필요합니다."
         case .scanning:
-            "벽을 천천히 바라본 뒤, 갈색 발굴 표면을 문지르세요."
+            "벽을 천천히 바라보며 수직 평면을 찾으세요."
         case .failed(let message):
             "평면 감지를 시작하지 못했습니다: \(message)"
         }
@@ -48,6 +51,10 @@ final class ExcavationTracker {
             return
         }
 
+        // A stopped data provider can't run again, so each scan uses new instances.
+        session = ARKitSession()
+        provider = PlaneDetectionProvider(alignments: [.vertical])
+
         state = .requestingAuthorization
         let authorization = await session.requestAuthorization(
             for: PlaneDetectionProvider.requiredAuthorizations
@@ -60,10 +67,6 @@ final class ExcavationTracker {
         do {
             try await session.run([provider])
             state = .scanning
-
-            for await update in provider.anchorUpdates {
-                await process(update)
-            }
         } catch {
             state = .failed(error.localizedDescription)
         }
@@ -71,44 +74,7 @@ final class ExcavationTracker {
 
     func stop() {
         session.stop()
-        for wall in walls.values {
-            wall.root.removeFromParent()
-        }
-        walls.removeAll()
         state = .idle
     }
 
-    func brush(entity: Entity) {
-        guard let anchorID = UUID(uuidString: entity.name) else {
-            return
-        }
-
-        walls[anchorID]?.brush()
-    }
-
-    private func process(_ update: AnchorUpdate<PlaneAnchor>) async {
-        let anchor = update.anchor
-
-        switch update.event {
-        case .added:
-            do {
-                let wall = try await ExcavationWall(anchor: anchor)
-                walls[anchor.id] = wall
-                rootEntity.addChild(wall.root)
-            } catch {
-                state = .failed(error.localizedDescription)
-            }
-
-        case .updated:
-            do {
-                try await walls[anchor.id]?.update(using: anchor)
-            } catch {
-                state = .failed(error.localizedDescription)
-            }
-
-        case .removed:
-            walls[anchor.id]?.root.removeFromParent()
-            walls.removeValue(forKey: anchor.id)
-        }
-    }
 }

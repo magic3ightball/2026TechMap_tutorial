@@ -12,6 +12,10 @@ final class ExcavationTracker {
     let rootEntity = Entity()
     private(set) var state: State = .idle
 
+    var isImmersiveSpaceOpen: Bool {
+        state != .idle
+    }
+
     var statusMessage: String {
         switch state {
         case .idle:

@@ -27,6 +27,7 @@ visionOS에서 수직 평면을 감지하고, 감지된 벽에 RealityKit 발굴
 2. `PlaneDetectionProvider`를 이용한 수직 평면 감지
 3. `PlaneAnchor`의 추가·변경·삭제 이벤트 처리
 4. RealityKit entity에 collision과 targeted drag gesture 연결
-5. 발굴 surface를 문질러 artifact placeholder 표시
+5. 발굴 surface를 문질러 점점 옅어지는 cover 아래의 artifact placeholder 표시
+6. 시뮬레이터 연습용 벽으로 Vision Pro 없이 상호 작용 확인
 
-실제 환경의 평면 감지와 입력 동작은 Apple Vision Pro에서 테스트해야 합니다.
+실제 환경의 평면 감지는 Apple Vision Pro에서 테스트해야 합니다. 발굴 상호 작용은 시뮬레이터의 연습용 벽으로도 확인할 수 있습니다.
