@@ -4,7 +4,7 @@ set -euo pipefail
 
 repository_root=$(cd "$(dirname "$0")/.." && pwd)
 source_catalog="$repository_root/outputs/PlaneDetectionTutorial.docc"
-theme_file="$repository_root/theme/cloudscape-docc.css"
+theme_file="$repository_root/theme/apple-docc.css"
 production_output="$repository_root/docs"
 preview_output="$repository_root/outputs/PlaneDetectionTutorial.preview.doccarchive"
 
@@ -30,13 +30,13 @@ build_archive() {
 
     if [[ -n "$base_path" ]]; then
         arguments+=(--hosting-base-path "$base_path")
-        stylesheet_path="/$base_path/css/cloudscape-docc.css"
+        stylesheet_path="/$base_path/css/apple-docc.css"
     else
-        stylesheet_path="/css/cloudscape-docc.css"
+        stylesheet_path="/css/apple-docc.css"
     fi
 
     xcrun docc "${arguments[@]}"
-    cp "$theme_file" "$archive_path/css/cloudscape-docc.css"
+    cp "$theme_file" "$archive_path/css/apple-docc.css"
 
     while IFS= read -r -d '' html_file; do
         perl -0pi -e "s#</head>#<link href=\"$stylesheet_path\" rel=\"stylesheet\"></head>#" "$html_file"
@@ -50,4 +50,4 @@ build_archive "$preview_output" "com.techmap.plane-excavation.preview"
 build_archive "$production_output" "com.techmap.plane-excavation" "2026TechMap_tutorial"
 : > "$production_output/.nojekyll"
 
-echo "Built Cloudscape-themed DocC archives."
+echo "Built DocC archives."

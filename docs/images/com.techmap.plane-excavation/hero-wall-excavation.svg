@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="250 40 720 470" role="img" aria-label="감지된 벽 평면 위의 발굴 표면이 일부 벗겨져 화석이 드러나는 장면">
+  <defs>
+    <linearGradient id="cover" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a0714a"/>
+      <stop offset="1" stop-color="#6e4a2e"/>
+    </linearGradient>
+    <linearGradient id="stone" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e9dcc4"/>
+      <stop offset="1" stop-color="#cdb894"/>
+    </linearGradient>
+    <clipPath id="wall">
+      <polygon points="330,70 900,120 900,450 330,480"/>
+    </clipPath>
+  </defs>
+
+
+  <!-- Detected vertical plane: cyan scan grid -->
+  <g clip-path="url(#wall)">
+    <polygon points="330,70 900,120 900,450 330,480" fill="#0c2f3a"/>
+    <g stroke="#3fd3e6" stroke-opacity="0.55" stroke-width="1.5">
+      <line x1="387" y1="75" x2="387" y2="477"/><line x1="444" y1="80" x2="444" y2="474"/>
+      <line x1="501" y1="85" x2="501" y2="471"/><line x1="558" y1="90" x2="558" y2="468"/>
+      <line x1="615" y1="95" x2="615" y2="465"/><line x1="672" y1="100" x2="672" y2="462"/>
+      <line x1="729" y1="105" x2="729" y2="459"/><line x1="786" y1="110" x2="786" y2="456"/>
+      <line x1="843" y1="115" x2="843" y2="453"/>
+      <line x1="330" y1="138" x2="900" y2="186"/><line x1="330" y1="206" x2="900" y2="252"/>
+      <line x1="330" y1="274" x2="900" y2="318"/><line x1="330" y1="342" x2="900" y2="384"/>
+      <line x1="330" y1="410" x2="900" y2="430"/>
+    </g>
+
+    <!-- Brown excavation cover, partly brushed away -->
+    <path d="M330,70 L900,120 L900,450 L330,480 Z M520,200 C560,160 700,170 740,220 C790,280 760,370 690,390 C610,410 520,380 500,320 C485,275 495,230 520,200 Z" fill="url(#cover)" fill-rule="evenodd" opacity="0.8"/>
+
+    <!-- Exposed stone and fossil -->
+    <path d="M520,200 C560,160 700,170 740,220 C790,280 760,370 690,390 C610,410 520,380 500,320 C485,275 495,230 520,200 Z" fill="url(#stone)"/>
+    <g fill="none" stroke="#8a5a2b" stroke-width="7" stroke-linecap="round">
+      <path d="M625,290 m0,0 a8,8 0 1,1 16,0 a20,20 0 1,1 -40,0 a34,34 0 1,1 68,0 a50,50 0 1,1 -100,2 a64,64 0 1,1 120,-14"/>
+    </g>
+    <g stroke="#8a5a2b" stroke-width="3" stroke-linecap="round" opacity="0.7">
+      <line x1="596" y1="252" x2="604" y2="266"/><line x1="636" y1="244" x2="634" y2="260"/>
+      <line x1="672" y1="262" x2="660" y2="272"/><line x1="682" y1="302" x2="666" y2="302"/>
+      <line x1="664" y1="338" x2="654" y2="326"/><line x1="622" y1="348" x2="624" y2="332"/>
+      <line x1="584" y1="330" x2="596" y2="320"/>
+    </g>
+  </g>
+
+  <!-- Plane outline -->
+  <polygon points="330,70 900,120 900,450 330,480" fill="none" stroke="#7fe6f2" stroke-width="3"/>
+  <g fill="#7fe6f2">
+    <circle cx="330" cy="70" r="7"/><circle cx="900" cy="120" r="7"/>
+    <circle cx="900" cy="450" r="7"/><circle cx="330" cy="480" r="7"/>
+  </g>
+
+  <!-- Pinch-and-brush gesture trail -->
+  <path d="M800,250 C850,215 900,260 860,300 C830,330 870,360 910,340" fill="none" stroke="#ffffff" stroke-opacity="0.85" stroke-width="5" stroke-linecap="round" stroke-dasharray="2 14"/>
+  <circle cx="916" cy="336" r="20" fill="#ffffff" fill-opacity="0.18" stroke="#ffffff" stroke-width="3"/>
+</svg>

@@ -24,7 +24,8 @@ final class ExcavationWall {
     init(practiceWallID id: UUID) {
         configure(id: id)
         applyCover(mesh: .generatePlane(width: 1.2, height: 0.8))
-        root.position = [0, 1.4, -1.5]
+        // Place it to the left so it doesn't cover the app window.
+        root.position = [-1.3, 1.4, -2]
     }
 
     func update(using anchor: PlaneAnchor) async throws {

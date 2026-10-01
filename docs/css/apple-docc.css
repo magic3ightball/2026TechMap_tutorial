@@ -1,0 +1,173 @@
+/*
+ * Keeps the stock DocC tutorial design, which matches Apple's Develop in Swift
+ * tutorials, and adds only what the static GitHub Pages build needs.
+ */
+
+/* DocC's global reset can load with no rules on GitHub Pages, so it's repeated here. */
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+    min-width: 320px;
+    -webkit-font-smoothing: antialiased;
+}
+
+abbr,
+blockquote,
+body,
+button,
+dd,
+dl,
+dt,
+fieldset,
+figure,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+legend,
+li,
+ol,
+p,
+pre,
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+button {
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+}
+
+nav ol,
+nav ul {
+    list-style: none;
+    margin: 0;
+}
+
+a:link,
+a:visited {
+    text-decoration: none;
+}
+
+#app {
+    display: flex;
+    flex-flow: column;
+    min-height: 100%;
+}
+
+#app > * {
+    min-width: 0;
+}
+
+#app .router-content {
+    flex: 1;
+}
+
+#skip-nav,
+.visuallyhidden {
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(0 0 99.9% 99.9%);
+    height: 1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+#skip-nav:focus {
+    clip: auto;
+    clip-path: none;
+    height: auto;
+    left: 12px;
+    padding: 10px 14px;
+    top: 10px;
+    width: auto;
+    z-index: 2000;
+}
+
+/* Values measured from Apple's Develop in Swift tutorials. */
+html body {
+    --typography-html-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --typography-html-font-mono: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    --tutorial-step-border-radius: 15px;
+    --color-nav-dark-root-subhead: rgb(84, 196, 188);
+}
+
+html body[data-color-scheme="light"] {
+    --color-nav-root-subhead: rgb(56, 163, 156);
+    --color-step-background: rgb(251, 251, 253);
+    --color-step-focused: rgb(76, 169, 255);
+}
+
+@media (prefers-color-scheme: light) {
+    html body[data-color-scheme="auto"] {
+        --color-nav-root-subhead: rgb(56, 163, 156);
+        --color-step-background: rgb(251, 251, 253);
+        --color-step-focused: rgb(76, 169, 255);
+    }
+}
+
+/* The color scheme toggle's label styles don't load in the static build. */
+html .color-scheme-toggle {
+    border: 1px solid rgb(0, 113, 227);
+    border-radius: 12px;
+    display: inline-flex;
+    font-size: 12px;
+    line-height: 16px;
+    padding: 1px;
+}
+
+html .color-scheme-toggle input {
+    appearance: none;
+    position: absolute;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(0 0 99.9% 99.9%);
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
+
+html .color-scheme-toggle .text {
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: rgb(0, 113, 227);
+    cursor: pointer;
+    display: inline-block;
+    min-width: 42px;
+    padding: 1px 6px;
+    text-align: center;
+}
+
+html .color-scheme-toggle input:checked + .text {
+    background-color: rgb(0, 113, 227);
+    border-color: rgb(0, 113, 227);
+    color: #fff;
+}
+
+html .color-scheme-toggle input:focus-visible + .text {
+    outline: 2px solid rgb(0, 113, 227);
+    outline-offset: 1px;
+}
+
+html .step-container .step::before {
+    width: 8px;
+}
+
+html .tutorial-hero .headline .heading,
+html .tutorials-overview .hero .title,
+.hero .headline {
+    font-weight: 600;
+}
