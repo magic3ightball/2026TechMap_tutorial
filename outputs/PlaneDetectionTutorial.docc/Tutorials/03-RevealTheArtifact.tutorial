@@ -184,7 +184,7 @@
             @Step {
                 `ExcavationWall.swift`의 전체 내용을 다음 코드로 교체합니다.
 
-                `applyCover(bounds:)`는 흙 사각형과 화석의 위치·방향을 함께 갱신합니다. `brush(at:)`는 손이 닿은 위치로 먼지 entity를 옮겨 `burst()`를 호출하고, 덮개에서 소리를 재생합니다. 덮개가 사라져도 유물은 이미 덮개 뒤에 있으므로 따로 켜지 않습니다.
+                `applyCover(bounds:)`는 흙 사각형과 화석의 위치·방향을 함께 갱신합니다. `brush(at:)`는 손이 닿은 위치로 먼지 entity를 옮겨 `burst()`를 호출하고, 벽의 `root`에서 소리를 재생합니다. 덮개는 마지막 입력에서 꺼지므로, 덮개에서 재생하면 마지막 소리가 나지 않습니다. 덮개가 사라져도 유물은 이미 덮개 뒤에 있으므로 따로 켜지 않습니다.
 
                 @Code(name: "ExcavationWall.swift", file: "03-ExcavationWall-4.swift", previousFile: "03-ExcavationWall-3.swift")
             }

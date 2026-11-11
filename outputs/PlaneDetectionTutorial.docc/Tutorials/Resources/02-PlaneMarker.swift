@@ -1,5 +1,6 @@
 import ARKit
 import RealityKit
+import UIKit
 
 @MainActor
 final class PlaneMarker {

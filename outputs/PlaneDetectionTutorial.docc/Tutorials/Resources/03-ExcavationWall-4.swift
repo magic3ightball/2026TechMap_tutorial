@@ -57,7 +57,7 @@ final class ExcavationWall {
             emitter.burst()
             dust.components.set(emitter)
         }
-        cover.playAudio(assets.scrape)
+        root.playAudio(assets.scrape)
 
         brushCount += 1
         guard brushCount >= requiredBrushCount else {
