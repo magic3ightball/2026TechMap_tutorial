@@ -120,6 +120,15 @@ final class ExcavationTracker {
     private func process(_ update: AnchorUpdate<PlaneAnchor>) async {
         let anchor = update.anchor
 
+        // Doors and windows are vertical too, but they aren't dig sites.
+        // A classification can change as ARKit learns more,
+        // so check it on every update.
+        if anchor.classification == .door || anchor.classification == .window {
+            walls[anchor.id]?.root.removeFromParent()
+            walls.removeValue(forKey: anchor.id)
+            return
+        }
+
         switch update.event {
         case .added:
             do {

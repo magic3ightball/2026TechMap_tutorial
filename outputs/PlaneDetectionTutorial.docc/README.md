@@ -1,15 +1,16 @@
 # Plane Detection으로 만드는 벽 발굴 체험
 
-이 DocC 카탈로그는 visionOS에서 수직 평면을 감지하고, 감지된 벽을 입력 가능한 RealityKit surface로 바꾸는 과정을 단계별로 설명합니다.
+이 DocC 카탈로그는 visionOS에서 수직 평면을 감지하고, 감지된 벽을 흙으로 덮고 문질러서 화석을 드러내는 과정을 단계별로 설명합니다.
 
 ## 학습 결과
 
 1. Full Space와 world-sensing 사용 목적을 구성합니다.
 2. `PlaneDetectionProvider`로 수직 `PlaneAnchor`를 감지합니다.
 3. `added`, `updated`, `removed` 이벤트에 맞춰 RealityKit entity를 관리합니다.
-4. 감지된 평면에 collision과 targeted gesture를 연결합니다.
-5. 표면을 문지를수록 cover가 옅어지다가 사라지고 artifact placeholder가 나타나는 결과를 만듭니다.
-6. 시뮬레이터에서는 연습용 벽으로 발굴 상호 작용을 확인합니다.
+4. `PlaneAnchor.classification`으로 문과 창문을 제외합니다.
+5. 감지된 평면에 collision과 targeted gesture를 연결합니다.
+6. 흙 덮개를 문지를수록 옅어지다가 사라지고 암모나이트 화석이 드러나는 결과를 만듭니다. 문지를 때마다 흙먼지와 긁는 소리가 납니다.
+7. 시뮬레이터에서는 연습용 벽으로 발굴 상호 작용을 확인합니다.
 
 ## 요구사항
 
@@ -26,11 +27,11 @@
 4. `Wall Excavation` 튜토리얼의 세 장을 순서대로 진행합니다.
 5. 각 장의 마지막 성공 기준을 모두 확인한 뒤 다음 장으로 이동합니다.
 
-`Tutorials/Resources`의 코드는 단계별 누적 스냅샷입니다. 파일 이름은 `장 번호-파일 이름-단계 번호.swift` 형식이며, 같은 파일의 연속 단계는 DocC가 변경된 줄을 강조해 표시합니다. 예를 들어 `ExcavationTracker.swift`는 `01-` → `02-…-1` → `02-…-2` → `03-…-1` → `03-…-2` → `03-…-3` 순서로 바뀝니다.
+`Tutorials/Resources`의 코드는 단계별 누적 스냅샷입니다. 파일 이름은 `장 번호-파일 이름-단계 번호.swift` 형식이며, 같은 파일의 연속 단계는 DocC가 변경된 줄을 강조해 표시합니다. 예를 들어 `ExcavationTracker.swift`는 `01-` → `02-…-1` → `02-…-2` → `02-…-3` → `03-…-1` → `03-…-2` → `03-…-3` → `03-…-4` 순서로 바뀝니다.
 
 ## 구현 범위
 
-최종 장은 0.25초 간격으로 여섯 번의 drag update를 계산하고, 입력마다 `OpacityComponent`로 cover를 옅게 만든 뒤 cover 전체를 숨깁니다. 손이 지나간 위치만 연속적으로 지우려면 texture alpha mask 또는 Metal shader를 별도로 구현해야 합니다. 이 단순화는 plane detection, anchor update, entity lifecycle과 입력 연결에 학습 범위를 집중하기 위한 것입니다.
+최종 장은 0.25초 간격으로 여섯 번의 drag update를 계산하고, 입력마다 `OpacityComponent`로 흙 덮개를 옅게 만든 뒤 덮개 전체를 숨깁니다. 손이 지나간 위치만 연속적으로 지우려면 texture alpha mask 또는 Metal shader를 별도로 구현해야 합니다. 이 단순화는 plane detection, anchor update, entity lifecycle과 입력 연결에 학습 범위를 집중하기 위한 것입니다.
 
 ## 공식 참고 자료
 
@@ -38,4 +39,5 @@
 - [PlaneDetectionProvider](https://developer.apple.com/documentation/arkit/planedetectionprovider)
 - [PlaneAnchor](https://developer.apple.com/documentation/arkit/planeanchor)
 - [Setting up access to ARKit data](https://developer.apple.com/documentation/visionos/setting-up-access-to-arkit-data)
+- [Simulating particles in your visionOS app](https://developer.apple.com/documentation/realitykit/simulating-particles-in-your-visionos-app)
 - [Responding to gestures on an entity](https://developer.apple.com/documentation/realitykit/responding-to-gestures-on-an-entity)

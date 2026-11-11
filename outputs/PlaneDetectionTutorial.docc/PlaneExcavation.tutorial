@@ -2,15 +2,15 @@
     @Intro(title: "감지된 벽 평면에서 유물을 드러내기") {
         수직 평면을 감지하고, 감지된 표면에 상호 작용하는 발굴 레이어를 배치합니다.
 
-        ARKit 평면 감지 데이터를 사용해 벽의 위치와 geometry가 바뀔 때 발굴 표면을 갱신합니다.
+        ARKit 평면 감지 데이터를 사용해 벽의 위치와 모양이 바뀔 때 발굴 표면을 갱신합니다.
 
-        @Image(source: "hero-wall-excavation.svg", alt: "감지된 벽 평면 위의 발굴 표면이 일부 벗겨져 화석이 드러나는 장면")
+        @Image(source: "hero-fossil-wall.jpg", alt: "흙 표면 아래에서 드러난 암모나이트 화석")
     }
 
     @Volume(name: "Plane Detection") {
         visionOS 앱에서 실제 방의 벽을 찾아 그 위에 상호 작용하는 콘텐츠를 배치합니다.
 
-        @Image(source: "hero-wall-excavation.svg", alt: "감지된 벽 평면 위의 발굴 표면")
+        @Image(source: "hero-fossil-wall.jpg", alt: "흙 표면 아래에서 드러난 암모나이트 화석")
 
         @Chapter(name: "발굴 공간 준비") {
             Window와 Immersive Space로 앱의 뼈대를 만들고, 공간을 열고 닫는 흐름과 world-sensing 사용 목적을 준비합니다.
@@ -27,9 +27,9 @@
         }
 
         @Chapter(name: "긁어서 화석 드러내기") {
-            감지된 벽을 입력 가능한 발굴 표면으로 바꾸고, 문지를수록 옅어지는 표면 아래에서 유물을 드러냅니다. 시뮬레이터에서는 연습용 벽으로 확인합니다.
+            감지된 벽을 입력 가능한 발굴 표면으로 바꾸고, 문지를수록 옅어지는 흙 아래에서 암모나이트 화석을 드러냅니다. 시뮬레이터에서는 연습용 벽으로 확인합니다.
 
-            @Image(source: "chapter-reveal.svg", alt: "벽 표면 아래에서 화석이 드러나는 장면")
+            @Image(source: "chapter-fossil.jpg", alt: "흙 표면 아래에서 드러난 암모나이트 화석")
             @TutorialReference(tutorial: "doc:03-RevealTheArtifact")
         }
     }

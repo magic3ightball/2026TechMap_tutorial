@@ -1,6 +1,8 @@
 @Tutorial(time: 30) {
     @Intro(title: "발굴 공간 구성하기") {
         새 visionOS 앱을 만들고, 다음 장의 평면 감지 코드를 받을 수 있는 Full Space 구조를 준비합니다.
+
+        @Image(source: "hero-dark-ch1.jpg", alt: "어두운 공간에 떠 있는 발굴 앱 창과 발굴 시작 버튼")
     }
 
     @Section(title: "visionOS 프로젝트 만들기") {
@@ -40,6 +42,10 @@
             - `ImmersiveView.swift`는 RealityKit content를 표시합니다.
             - `ExcavationTracker.swift`는 공간 안에서 실행할 기능을 관리합니다.
 
+            **코드 패널 읽는 법**: 오른쪽 코드 패널은 언제나 파일 **전체**를 보여 줍니다. 강조된 줄은 바로 앞 단계에서 바뀐 부분입니다. 앞 단계 코드를 다시 찾을 필요 없이, 패널에 보이는 파일 전체를 그대로 붙여 넣으면 지금 단계까지 누적된 코드가 됩니다.
+
+            **그림 읽는 법**: 실행 결과를 확인하는 단계에는 오른쪽에 **예시 그림**이 나타납니다. 예시 그림은 화면 구성을 설명하기 위한 그림이며, 실제 시뮬레이터나 기기 화면과 색과 배치가 다를 수 있습니다.
+
             이 장의 `ExcavationTracker`는 앱 구조를 먼저 확인하기 위한 최소 구현입니다. 2장에서 같은 파일의 내용을 평면 감지 구현으로 교체합니다.
         }
 
@@ -78,7 +84,7 @@
 
     @Section(title: "world-sensing 사용 목적 추가하기") {
         @ContentAndMedia {
-            다음 장에서 `ARKitSession`으로 평면의 위치와 geometry를 읽을 때 world-sensing 접근 권한이 필요합니다. 앱은 권한을 요청하기 전에 사용 목적을 target 설정에 포함해야 합니다.
+            다음 장에서 `ARKitSession`으로 평면의 위치와 모양을 읽을 때 world-sensing 접근 권한이 필요합니다. 앱은 권한을 요청하기 전에 사용 목적을 target 설정에 포함해야 합니다.
         }
 
         @Steps {
@@ -89,7 +95,7 @@
             @Step {
                 **Custom visionOS Target Properties**에서 새 항목을 추가합니다. 키는 **Privacy - World Sensing Usage Description**을 선택합니다.
 
-                Raw Key로 표시할 때의 이름은 `NSWorldSensingUsageDescription`입니다.
+                > Tip: Raw Key로 표시할 때의 이름은 `NSWorldSensingUsageDescription`입니다.
             }
 
             @Step {
@@ -116,7 +122,9 @@
             @Step {
                 공간이 열리고 상태가 `발굴 공간이 열렸습니다. 다음 장에서 벽 감지를 추가합니다.`로 바뀌는지 확인합니다.
 
-                공간이 열리지 않으면 target이 visionOS 앱인지, `PlaneExcavationApp.swift`의 `ImmersiveSpace` id와 `ContentView.swift`의 id가 모두 `ExcavationSpace`인지 확인합니다.
+                @Image(source: "result-ch1.jpg", alt: "예시 그림: 열린 앱 창에 발굴 종료 버튼과 공간이 열렸다는 상태 문구가 보인다")
+
+                > Note: 공간이 열리지 않으면 target이 visionOS 앱인지, `PlaneExcavationApp.swift`의 `ImmersiveSpace` id와 `ContentView.swift`의 id가 모두 `ExcavationSpace`인지 확인합니다.
             }
 
             @Step {

@@ -1,3 +1,8 @@
+/* Web fonts (SIL Open Font License 1.1).
+ * Pretendard: Korean and Latin body text. D2Coding: code, including Korean strings. */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css");
+@import url("https://cdn.jsdelivr.net/npm/@kfonts/d2coding@0.2.0/index.css");
+
 /*
  * Keeps the stock DocC tutorial design, which matches Apple's Develop in Swift
  * tutorials, and adds only what the static GitHub Pages build needs.
@@ -100,8 +105,8 @@ a:visited {
 
 /* Values measured from Apple's Develop in Swift tutorials. */
 html body {
-    --typography-html-font: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
-    --typography-html-font-mono: ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    --typography-html-font: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+    --typography-html-font-mono: D2Coding, ui-monospace, "SF Mono", Menlo, Monaco, monospace;
     --tutorial-step-border-radius: 15px;
     --color-nav-dark-root-subhead: rgb(84, 196, 188);
 }
@@ -170,4 +175,21 @@ html .tutorial-hero .headline .heading,
 html .tutorials-overview .hero .title,
 .hero .headline {
     font-weight: 600;
+}
+
+/* Korean text wraps between words instead of inside a word. */
+html:lang(ko) body,
+html body {
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+}
+
+/* Chapter heroes use black artwork with the subject on the right, like Apple's tutorials. */
+html .tutorial-hero .hero.dark {
+    background-color: #000;
+}
+
+html .tutorial-hero .bg {
+    opacity: 1;
+    background-position: right center;
 }

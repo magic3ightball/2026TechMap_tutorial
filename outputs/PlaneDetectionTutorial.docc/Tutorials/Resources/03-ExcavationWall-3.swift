@@ -20,7 +20,8 @@ final class ExcavationWall {
         try await update(using: anchor)
     }
 
-    /// Creates a wall in front of the person for Simulator, where plane detection isn't available.
+    /// Creates a wall in front of the person for Simulator,
+    /// where plane detection isn't available.
     init(practiceWallID id: UUID) {
         configure(id: id)
         applyCover(mesh: .generatePlane(width: 1.2, height: 0.8))

@@ -1,6 +1,8 @@
 @Tutorial(time: 40) {
     @Intro(title: "수직 벽 평면 감지하기") {
-        `PlaneDetectionProvider`를 실행하고, ARKit이 전달하는 수직 평면을 파란 mesh로 표시합니다.
+        `PlaneDetectionProvider`를 실행하고, ARKit이 전달하는 수직 평면을 cyan 표시로 보여 줍니다.
+
+        @Image(source: "hero-dark-ch2.jpg", alt: "어두운 공간의 벽 위에 cyan 평면 표시가 있고 문은 제외되어 있다")
     }
 
     @Section(title: "평면 감지 흐름 이해하기") {
@@ -9,9 +11,9 @@
 
             - **ARKitSession**은 여러 ARKit 기능을 실행하는 세션입니다.
             - **PlaneDetectionProvider**는 수평 또는 수직 평면 데이터를 공급합니다.
-            - **PlaneAnchor**는 감지된 한 평면의 id, 위치, 방향, geometry를 나타냅니다.
+            - **PlaneAnchor**는 감지된 한 평면의 id, 위치, 방향, 모양(geometry)을 나타냅니다.
             - **transform**은 anchor 좌표를 앱의 공간 좌표로 옮기는 변환 정보입니다.
-            - **mesh**는 평면의 geometry를 화면에 그릴 수 있는 RealityKit 형태로 바꾼 결과입니다.
+            - **mesh**는 평면의 모양을 화면에 그릴 수 있는 RealityKit 형태로 바꾼 결과입니다.
 
             이 앱은 `.vertical` alignment만 요청합니다. 따라서 벽뿐 아니라 문이나 창문처럼 수직인 표면도 후보가 될 수 있습니다.
         }
@@ -54,25 +56,25 @@
             `anchorUpdates`는 평면의 생명주기를 `added`, `updated`, `removed` 이벤트로 전달합니다.
 
             - `added`에서 새 `PlaneMarker`를 만들고 anchor id로 저장합니다.
-            - `updated`에서 같은 id의 marker에 최신 geometry와 transform을 적용합니다.
-            - `removed`에서 marker를 scene과 dictionary에서 모두 제거합니다.
+            - `updated`에서 같은 id의 표시에 최신 모양과 transform을 적용합니다.
+            - `removed`에서 표시를 scene과 dictionary에서 모두 제거합니다.
 
-            평면의 초기 geometry는 작거나 불완전할 수 있습니다. 사람이 벽을 더 넓게 바라보면 ARKit이 같은 anchor의 geometry를 갱신하므로, 콘텐츠도 매번 갱신해야 합니다.
+            평면의 초기 모양은 작거나 불완전할 수 있습니다. 사람이 벽을 더 넓게 바라보면 ARKit이 같은 anchor의 모양을 갱신하므로, 콘텐츠도 매번 갱신해야 합니다.
         }
 
         @Steps {
             @Step {
                 **File > New > File > Swift File**을 선택하고 `PlaneMarker.swift`를 만듭니다. 다음 코드를 붙여 넣습니다.
 
-                `MeshResource(from:)`은 anchor geometry를 mesh로 변환합니다. cyan 재질을 사용하므로 감지 결과를 눈으로 확인할 수 있습니다. `PlaneMarker.swift`가 `PlaneExcavation` target에 포함되어 있는지 File inspector의 **Target Membership**에서 확인합니다.
+                `MeshResource(from:)`은 anchor 모양을 mesh로 변환합니다. cyan 재질을 사용하므로 감지 결과를 눈으로 확인할 수 있습니다. `PlaneMarker.swift`가 `PlaneExcavation` target에 포함되어 있는지 File inspector의 **Target Membership**에서 확인합니다.
 
                 @Code(name: "PlaneMarker.swift", file: "02-PlaneMarker.swift")
             }
 
             @Step {
-                `ExcavationTracker.swift`에 marker dictionary, `anchorUpdates` 반복문, `process(_:)` 함수를 추가합니다. 강조된 줄이 이전 단계에서 바뀐 부분입니다.
+                `ExcavationTracker.swift`에 표시 dictionary, `anchorUpdates` 반복문, `process(_:)` 함수를 추가합니다. 강조된 줄이 이전 단계에서 바뀐 부분입니다.
 
-                `ExcavationTracker` 중복 선언 오류가 나타나면 1장의 tracker 코드가 다른 파일에 복사되어 있지 않은지 확인합니다.
+                > Note: `ExcavationTracker` 중복 선언 오류가 나타나면 1장의 tracker 코드가 다른 파일에 복사되어 있지 않은지 확인합니다.
 
                 @Code(name: "ExcavationTracker.swift", file: "02-ExcavationTracker-2.swift", previousFile: "02-ExcavationTracker-1.swift")
             }
@@ -86,9 +88,41 @@
             }
 
             @Step {
-                **발굴 종료**를 선택한 뒤 다시 **발굴 시작**을 선택합니다. 이전 marker가 사라지고 평면 감지가 새로 시작되면 `stop()`의 정리 코드와 `start()`의 provider 재생성이 함께 동작한 것입니다.
+                **발굴 종료**를 선택한 뒤 다시 **발굴 시작**을 선택합니다. 이전 표시가 사라지고 평면 감지가 새로 시작되면 `stop()`의 정리 코드와 `start()`의 provider 재생성이 함께 동작한 것입니다.
 
                 @Code(name: "ExcavationTracker.swift", file: "02-ExcavationTracker-2.swift", previousFile: "02-ExcavationTracker-1.swift")
+            }
+        }
+    }
+
+    @Section(title: "문과 창문 제외하기") {
+        @ContentAndMedia {
+            `.vertical` alignment는 방향만 구분합니다. 벽, 문, 창문은 모두 수직이므로 지금은 문과 창문에도 표시가 나타납니다.
+
+            ARKit은 감지한 평면마다 **classification**을 붙입니다. classification은 평면이 실제로 무엇인지에 대한 추정입니다.
+
+            - `.wall`은 벽이나 그와 비슷한 큰 수직 표면입니다.
+            - `.door`와 `.window`는 문과 창문입니다.
+            - 그 밖에 `.floor`, `.ceiling`, `.table`, `.seat`가 있습니다.
+
+            classification은 ARKit이 공간을 더 관찰하면서 바뀔 수 있습니다. 그래서 `added`에서 한 번만 확인하지 않고, 모든 update에서 확인합니다. 문이나 창문으로 판정된 평면은 표시를 만들지 않고, 이미 있는 표시는 제거합니다.
+        }
+
+        @Steps {
+            @Step {
+                `ExcavationTracker.swift`의 `process(_:)` 앞부분에 classification 검사를 추가합니다. 강조된 줄이 이전 단계에서 추가된 부분입니다.
+
+                @Code(name: "ExcavationTracker.swift", file: "02-ExcavationTracker-3.swift", previousFile: "02-ExcavationTracker-2.swift")
+            }
+
+            @Step {
+                Apple Vision Pro에서 앱을 다시 실행하고, 벽과 문이 함께 보이는 위치에서 천천히 둘러봅니다.
+
+                벽에는 cyan 표시가 나타나고, 문 위의 표시는 나타나지 않거나 잠시 뒤 사라지면 classification 검사가 동작한 것입니다. 
+
+                > Note: 문이 벽과 같은 색이고 경계가 잘 보이지 않으면 ARKit이 문을 벽으로 판정할 수도 있습니다.
+
+                @Image(source: "result-ch2door.jpg", alt: "예시 그림: 벽에는 cyan 평면 표시가 있고 문에는 표시가 없다")
             }
         }
     }
@@ -105,9 +139,97 @@
 
         @Steps {
             @Step {
-                cyan marker가 나타나고, 벽을 더 관찰할 때 marker가 갱신되며, **발굴 종료** 후 다시 시작하면 marker가 새로 감지되는 세 결과를 확인합니다.
+                cyan 표시가 나타나고, 벽을 더 관찰할 때 표시가 갱신되며, **발굴 종료** 후 다시 시작하면 표시가 새로 감지되는 세 결과를 확인합니다.
 
                 세 결과가 모두 확인되면 3장으로 이동합니다.
+
+                @Image(source: "result-ch2.jpg", alt: "예시 그림: 방의 벽 위에 반투명한 cyan 평면 표시가 겹쳐 보인다")
+            }
+        }
+    }
+
+    @Assessments {
+        @MultipleChoice {
+            벽을 더 오래 바라보면 ARKit이 같은 평면을 더 넓게 인식합니다. 이때 앱이 받는 이벤트는 무엇입니까?
+
+            @Choice(isCorrect: false) {
+                `added`
+
+                @Justification(reaction: "다시 생각해 보세요.") {
+                    `added`는 처음 감지된 평면에 한 번 전달됩니다. 같은 평면의 모양이 바뀌면 다른 이벤트가 전달됩니다.
+                }
+            }
+
+            @Choice(isCorrect: true) {
+                `updated`
+
+                @Justification(reaction: "정답입니다.") {
+                    같은 anchor id로 `updated`가 전달됩니다. 그래서 앱은 dictionary에서 기존 표시를 찾아 모양과 transform을 갱신합니다.
+                }
+            }
+
+            @Choice(isCorrect: false) {
+                `removed` 다음에 `added`
+
+                @Justification(reaction: "다시 생각해 보세요.") {
+                    평면이 사라지지 않았으므로 `removed`는 전달되지 않습니다. 같은 평면은 같은 id를 유지합니다.
+                }
+            }
+        }
+
+        @MultipleChoice {
+            `PlaneDetectionProvider(alignments: [.vertical])`만으로 문과 창문을 걸러낼 수 없는 이유는 무엇입니까?
+
+            @Choice(isCorrect: true) {
+                alignment는 방향만 구분하고, 문과 창문도 수직이기 때문입니다.
+
+                @Justification(reaction: "정답입니다.") {
+                    문과 창문을 구분하려면 각 `PlaneAnchor`의 `classification`을 확인해야 합니다.
+                }
+            }
+
+            @Choice(isCorrect: false) {
+                시뮬레이터에서 실행했기 때문입니다.
+
+                @Justification(reaction: "다시 생각해 보세요.") {
+                    시뮬레이터에서는 평면 감지 자체를 사용할 수 없습니다. 문제는 실행 환경이 아니라 alignment가 구분하는 정보의 범위입니다.
+                }
+            }
+
+            @Choice(isCorrect: false) {
+                world-sensing 권한이 없기 때문입니다.
+
+                @Justification(reaction: "다시 생각해 보세요.") {
+                    권한이 없으면 평면이 전혀 감지되지 않습니다. 평면이 감지된다면 권한은 이미 허용된 상태입니다.
+                }
+            }
+        }
+
+        @MultipleChoice {
+            공간을 닫았다가 다시 열 때 `start()`가 `ARKitSession`과 `PlaneDetectionProvider`를 새로 만드는 이유는 무엇입니까?
+
+            @Choice(isCorrect: false) {
+                이전 표시의 색을 초기화하기 위해서입니다.
+
+                @Justification(reaction: "다시 생각해 보세요.") {
+                    표시는 `stop()`에서 scene과 dictionary에서 제거됩니다. provider를 새로 만드는 이유는 다른 데 있습니다.
+                }
+            }
+
+            @Choice(isCorrect: true) {
+                한 번 멈춘 data provider는 다시 실행할 수 없기 때문입니다.
+
+                @Justification(reaction: "정답입니다.") {
+                    그래서 공간이 열릴 때마다 새 session과 provider로 평면 감지를 처음부터 시작합니다.
+                }
+            }
+
+            @Choice(isCorrect: false) {
+                권한 요청 창을 다시 띄우기 위해서입니다.
+
+                @Justification(reaction: "다시 생각해 보세요.") {
+                    한 번 허용한 권한은 다시 묻지 않습니다. 새 session을 만들어도 권한 상태는 유지됩니다.
+                }
             }
         }
     }
