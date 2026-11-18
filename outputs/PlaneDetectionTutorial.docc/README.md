@@ -14,7 +14,7 @@
 
 ## 요구사항
 
-- Xcode 16 이상
+- Xcode 26.6 (이 튜토리얼을 만들고 확인한 버전. 제작 환경: macOS 26.5.2, Reality Composer Pro 2.0, visionOS SDK 26.5)
 - visionOS 2.0 이상 deployment target
 - 실제 환경의 평면 감지를 테스트할 Apple Vision Pro (3장 발굴 상호 작용은 visionOS 시뮬레이터에서도 확인 가능)
 - Swift와 SwiftUI 파일을 만들고 교체하는 기본적인 Xcode 사용 경험

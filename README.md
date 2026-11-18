@@ -33,8 +33,25 @@ visionOS에서 수직 평면을 감지하고, 감지된 벽을 흙으로 덮어 
 
 ## 요구사항
 
-- Xcode 16 이상, visionOS 2.0 이상 deployment target
+- Xcode 26.6 (이 튜토리얼을 만들고 확인한 버전), visionOS 2.0 이상 deployment target
 - 실제 환경의 평면 감지는 Apple Vision Pro 실기기가 필요합니다. 발굴 상호 작용은 visionOS 시뮬레이터의 연습용 벽으로도 확인할 수 있습니다.
+
+## 제작 환경
+
+이 튜토리얼은 아래 환경에서 만들고 확인했습니다.
+
+- macOS 26.5.2
+- Xcode 26.6
+- Reality Composer Pro 2.0
+- visionOS SDK 26.5
+
+## 만든 사람
+
+정혜림 · Product Builder
+
+- GitHub: https://github.com/magic3ightball
+- 포트폴리오: https://hyerimjeong.com
+- LinkedIn: https://www.linkedin.com/in/hyerim-jeong-3825a221a
 
 ## 에셋 출처
 

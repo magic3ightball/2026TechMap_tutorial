@@ -4,6 +4,10 @@
 
         ARKit 평면 감지 데이터를 사용해 벽의 위치와 모양이 바뀔 때 발굴 표면을 갱신합니다.
 
+        **제작 환경** macOS 26.5.2 · Xcode 26.6 · Reality Composer Pro 2.0 · visionOS SDK 26.5
+
+        **만든 사람** 정혜림 · Product Builder — [GitHub](https://github.com/magic3ightball) · [포트폴리오](https://hyerimjeong.com) · [LinkedIn](https://www.linkedin.com/in/hyerim-jeong-3825a221a)
+
         @Image(source: "hero-fossil-wall.jpg", alt: "흙 표면 아래에서 드러난 암모나이트 화석")
     }
 
